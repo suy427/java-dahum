@@ -1,11 +1,19 @@
 import java.util.List;
 import java.util.Map;
+
+import org.junit.Before;
 import org.junit.Test;
 
 class ObjectControllerTest extends ObjectController{
 
-    ObjectController oc = new ObjectController();
-    TestClass tc = new TestClass();
+    ObjectController objectController;
+    TestClass testClass;
+
+    @Before
+    void init() {
+        objectController = new ObjectController();
+        testClass = new TestClass();
+    }
 
 
     @Test
@@ -17,13 +25,13 @@ class ObjectControllerTest extends ObjectController{
 
     @Test
     void getFieldsList() {
-        List<String> list = ObjectController.getFieldNameList(tc);
+        List<String> list = ObjectController.getFieldNameList(testClass);
         System.out.println(list);
     }
 
     @Test
     void getFieldsListWithAllSuperClasses() {
-        List<String> list = ObjectController.getFieldNameListWithAllSuperClasses(tc);
+        List<String> list = ObjectController.getFieldNameListWithAllSuperClasses(testClass);
         System.out.println(list);
     }
     class SuperTestClass {
