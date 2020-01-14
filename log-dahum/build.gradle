@@ -1,0 +1,10 @@
+ext {
+    slf4jVersion = '1.7.25'
+    loggingImpl = ''
+    loggingImplVersion = ''
+}
+
+
+dependencies {
+    compile "org.slf4j:slf4j-api:${slf4jVersion}" // 제일 많이 쓰는 버전이길래 갖다써본다. slf4j -> (Simple Logging Facade 4 Java) // Facade!!!!
+}
