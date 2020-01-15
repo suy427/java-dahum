@@ -7,3 +7,4 @@
 ## Modules
 
 * Object-dahum
+* Log-dahum
