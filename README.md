@@ -8,3 +8,4 @@
 
 * Object-dahum
 * Log-dahum
+* Core-dahum
