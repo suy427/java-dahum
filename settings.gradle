@@ -1,5 +1,5 @@
 rootProject.name = 'java-dahum'
+include 'core-dahum'
 include 'object-dahum'
 include 'log-dahum'
-include 'core-dahum'
 
