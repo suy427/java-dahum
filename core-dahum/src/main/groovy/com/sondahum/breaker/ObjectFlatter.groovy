@@ -1,59 +1,33 @@
 package com.sondahum.breaker;
 
-import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
-public class ObjectFlatter {
+class ObjectFlatter {
 
-    Map<String, Object> toMap() {
-        return objToMap(this);
-    }
 
     static Map<String, Object> objToMap(Object obj) {
-        Map<String, Object> fieldMap =
-                Arrays.stream(obj.getClass().getDeclaredFields())
-                        .filter(field -> !field.isSynthetic()) // synthetic field란 어떤걸까..?
-                        .collect(Collectors.toMap(Field::getName, field -> {
-                            Object ret = null;
-                            try {
-                                ret = field.get(obj);
-                            } catch (IllegalAccessException e) {
-                                e.printStackTrace();
-                            }
-                            return ret;
-                        }
-                        ));
+        Map<String, Object> resultMap =
+                obj.getClass().declaredFields.findAll { !it.synthetic } // TODO synthetic정체 알기
+                        .collectEntries { [(it.name): obj."$it.name"] } // ${variable}이거랑 같다.. 그루비 미쳤다.
 
-        return fieldMap;
+        return resultMap
     }
 
-    static List<String> getFieldNameList(Object obj) {
-        List<String> fieldNameList = Arrays.stream(obj.getClass().getDeclaredFields())
-                .filter(field -> !field.isSynthetic())
-                .map(Field::getName)
-                .collect(Collectors.toList());
+    static List<String> getFieldsList(Object obj) {
+        List<String> fieldNameList =
+                obj.getClass().getDeclaredFields().findAll {!it.synthetic}.collect {it.name}
 
-        return fieldNameList;
+        return fieldNameList
     }
 
     //TODO : need to approve
-    static List<String> getFieldNameListWithAllSuperClasses(Object obj) {
-        List<String> ret = new LinkedList<>();
-        Class model = obj.getClass();
+    static List<String> getFieldsListWithAllSuperClasses(Object obj) {
+        List<String> fieldNameList = []
+        Class model = obj.getClass()
 
-        while (model != null) {
-            ret.addAll(
-                    Arrays.stream(model.getDeclaredFields())
-                            .filter(field -> !field.isSynthetic())
-                            .map(Field::getName)
-                            .collect(Collectors.toList()));
-
-            model = model.getSuperclass();
+        while (model) {
+            fieldNameList.addAll(model.getDeclaredFields().findAll {!it.synthetic}.collect {it.name})
+            model = model.getSuperclass()
         }
-        return ret;
+        return fieldNameList
     }
 }
