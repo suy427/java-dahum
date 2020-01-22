@@ -4,36 +4,49 @@ import com.sondahum.breaker.ObjectFlatter
 import org.junit.Before;
 import org.junit.Test;
 
-class ObjectFlatterTest extends ObjectFlatter{
+class ObjectFlatterTest {
 
-    ObjectFlatter objectFlatter;
-    TestClass testClass;
+    ObjectFlatter objectFlatter
+    TestClass testClass
 
     @Before
     void init() {
-        objectFlatter = new ObjectFlatter();
-        testClass = new TestClass();
+        objectFlatter = new ObjectFlatter()
+        testClass = new TestClass()
     }
 
 
     @Test
     void objToMap() {
-        Map<String,Object> ret = ObjectFlatter.objToMap(new TestClass("aaa",10,"BBB",4.3));
+        Map<String,Object> ret = objectFlatter.objToMap(testClass)
 
-        System.out.println(ret);
+        println ret
+    }
+
+    @Test
+    void objToMApWithAllSuperClasses() {
+        Map<String, Object> ret =
+                objectFlatter.objToMapAllSuperClasses(testClass)
+
+        println ret
     }
 
     @Test
     void getFieldsList() {
-        List<String> list = ObjectFlatter.getFieldNameList(testClass);
-        System.out.println(list);
+        List<String> list = objectFlatter.getFieldsList(testClass)
+
+        println list
     }
 
     @Test
     void getFieldsListWithAllSuperClasses() {
-        List<String> list = ObjectFlatter.getFieldNameListWithAllSuperClasses(testClass);
-        System.out.println(list);
+        List<String> list = objectFlatter.getFieldsListWithAllSuperClasses(testClass)
+
+        println list
     }
+
+
+
     class SuperTestClass {
         String gender = "male";
         Boolean married = false;
